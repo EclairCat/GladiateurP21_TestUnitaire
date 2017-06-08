@@ -299,11 +299,12 @@ public class RetiaireTest
         new Retiaire(1, "", 30);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     //    "Retiaire.init : agilité négative ne lance pas l'exception IllegalArgumentException"
     public void testRetiaire4()
     {
-        new Retiaire(1, "Agilix", -100);
+        Retiaire r2 = new Retiaire(1, "Agilix", -100);
+        assertThat("Retiaire  si agilité negatif alors on met 0", r2.getAgilite(), is(0));
     }
     
     @Test(expected = IllegalArgumentException.class)

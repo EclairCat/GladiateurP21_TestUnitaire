@@ -13,7 +13,7 @@ public class Retiaire extends Gladiateur {
                
         super(idg, nom);
         
-        if(idg == null || nom == null || agilite == null || idg <0 || agilite <0 || nom =="" || agilite > c_agiliteMax)
+        if( agilite == null || idg <0  || nom =="" || agilite > c_agiliteMax)
         {
             throw new IllegalArgumentException();
         }
