@@ -76,29 +76,13 @@ public class Facade {
 //Les gladiateurs
     public static Integer creerRetiaire(String nom, Integer agilite, Integer ide) {
         // On vérifie que l'ethnie existe
-        Ethnie e = GEthnie.chercherEthnie(ide);
-        if (e != null) {
-            Gladiateur g = GGladiateur.ajouterRetiaire(nom, agilite);
-            GEthnie.ajouterGladiateur(e, g);
-            return g.getIdg();
-        }
-        else {
-            System.out.println("L'Ethnie n'existe pas.");
-            return -1;
-        }
+        Gladiateur g = GGladiateur.ajouterRetiaire(nom, agilite, ide);
+        return g.getIdg();
     }
     public static Integer creerMirmillon(String nom, Integer poids, Integer ide) {
         // On vérifie que l'ethnie existe
-        Ethnie e = GEthnie.chercherEthnie(ide);
-        if (e != null) {
-            Gladiateur g = GGladiateur.ajouterMirmillon(nom, poids);
-            GEthnie.ajouterGladiateur(e, g);
-            return g.getIdg();
-        }
-        else {
-            System.out.println(String.format("L'Ethnie %d n'existe pas.", ide));;
-            return -1;
-        }
+        Gladiateur g = GGladiateur.ajouterMirmillon(nom, poids, ide);
+        return g.getIdg();
     }
     public static Collection<Integer> listerTousGladiateurs() {
         return getListeIdg(GGladiateur.listerGladiateur());
