@@ -7,6 +7,8 @@ public class Arme {
     private String nom;
 
     public Arme(Integer ida, String nom, Integer pOff, Integer pDef) {
+        if (ida == null || nom == null || pOff == null || pDef == null) throw new IllegalArgumentException();
+        if (ida < 1 || nom.isEmpty() || pOff < 0 || pDef < 0) throw new IllegalArgumentException();
         this.ida = ida;
         this.nom = nom;
         this.puissOffensive = pOff;
@@ -42,3 +44,4 @@ public class Arme {
         return desc;
     }
 }
+

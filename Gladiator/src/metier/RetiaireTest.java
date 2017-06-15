@@ -313,4 +313,7 @@ public class RetiaireTest
     {
         new Retiaire(1, "Agilix", Retiaire.c_getAgiliteMax() + 10);
     }
+    
+    
+    
 }

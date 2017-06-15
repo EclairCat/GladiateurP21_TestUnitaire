@@ -3,11 +3,17 @@ package packglad;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import java.util.NoSuchElementException;
+
 import metier.*;
 
 
 public class Facade {
     public static Integer lancerJeu() {
+        //Clear tout les gestionnaires
+        GArme.reinitialisation();
+        GGladiateur.reinitialisation();
+        GEthnie.reinitialisation();
         //initialise les param?tres du jeu avec les valeurs par d?faut
         parametrage(200, 30, 100, 50);
         return 0;
@@ -75,12 +81,12 @@ public class Facade {
 
 //Les gladiateurs
     public static Integer creerRetiaire(String nom, Integer agilite, Integer ide) {
-        // On vérifie que l'ethnie existe
+        // On vï¿½rifie que l'ethnie existe
         Gladiateur g = GGladiateur.ajouterRetiaire(nom, agilite, ide);
         return g.getIdg();
     }
     public static Integer creerMirmillon(String nom, Integer poids, Integer ide) {
-        // On vérifie que l'ethnie existe
+        // On vï¿½rifie que l'ethnie existe
         Gladiateur g = GGladiateur.ajouterMirmillon(nom, poids, ide);
         return g.getIdg();
     }
@@ -104,7 +110,7 @@ public class Facade {
         //  retourne la liste des idg des agresseurs du gladiateur idg (si idg est un mirmillon sinon rien)
     }  
     private static Collection<Integer> getListeIdg(Collection<Gladiateur> lg) {
-        // retourne la liste des idg de la collection de gladiateur donné en paramêtre
+        // retourne la liste des idg de la collection de gladiateur donnï¿½ en paramï¿½tre
         Collection<Integer> lIdg = new ArrayList<Integer>();
         for (Gladiateur g : lg) {
             lIdg.add(g.getIdg());
@@ -166,12 +172,12 @@ public class Facade {
         // On verifie que l'arme n'existe pas encore
         if (a != null) return a.getIda();
         else {
-            System.out.println("L'arme existe déjà.");
+            System.out.println("L'arme existe dï¿½jï¿½.");
             return -1;
         }
     }
     public static Integer autoriserArmeAuxMirmillons(Integer ida) {
-        // On vérifie que l'arme existe
+        // On vï¿½rifie que l'arme existe
         Arme a = GArme.chercherArme(ida);
         if (a != null) {
             GGladiateur.autoriserArmeMirmillon(a);
@@ -183,7 +189,7 @@ public class Facade {
         }
     }
     public static Integer autoriserArmeAuxRetiaires(Integer ida) {
-        // On vérifie que l'arme existe
+        // On vï¿½rifie que l'arme existe
         Arme a = GArme.chercherArme(ida);
         if (a != null) {
             GGladiateur.autoriserArmeRetiaire(a);
@@ -196,17 +202,19 @@ public class Facade {
     }
     public static Integer donnerUneArme(Integer ida, Integer idg) {
         //donne l'arme ida au gladiateur idg
-        // On vérifie que l'arme existe
+        // On vï¿½rifie que l'arme existe
+        int res= -1;
         Arme a = GArme.chercherArme(ida);
         Gladiateur g = GGladiateur.chercherGladiateur(idg);
         if (a != null && g != null) {
             g.receveoirArme(a);
-            return 0;
+            res = 0;
         }
         else {
             System.out.println("Un des arguments n'existe pas.");
-            return -1;
+            throw new NoSuchElementException();
         }
+        return res;
     }
     public static Collection<Integer> listerArmes() {
         //retourne la liste des ida des armes
@@ -222,7 +230,7 @@ public class Facade {
         
     }
     private static Collection<Integer> getListeIda(Collection<Arme> la) {
-        // retourn la liste des ida de la collection passée en parametre
+        // retourn la liste des ida de la collection passï¿½e en parametre
         Collection<Integer> lIda = new ArrayList<Integer>();
         for (Arme a : la) {
             lIda.add(a.getIda());
@@ -230,7 +238,7 @@ public class Facade {
         return lIda;
     }
     public static String decrireArme(Integer ida) {
-        // On vérifie que l'arme existe
+        // On vï¿½rifie que l'arme existe
         Arme a = GArme.chercherArme(ida);
         if (a != null) {
             return a.description();
@@ -242,7 +250,7 @@ public class Facade {
         //renvoie en String la description de l'arme (cf p4 de l'?nonc?) ida,nom,valOff,ValDef, dispoMir,dispoRet
     }
     public static String nomDeLArme(Integer ida) {
-        // On vérifie que l'arme existe
+        // On vï¿½rifie que l'arme existe
         Arme a = GArme.chercherArme(ida);
         if (a != null) {
             return a.getNom();
@@ -255,16 +263,16 @@ public class Facade {
 
 // Les ethnies 
     public static void creerEthnie(String nom) {
-        // On vérifie que l'ethnie existe déjà
+        // On vï¿½rifie que l'ethnie existe dï¿½jï¿½
         Ethnie e = GEthnie.ajouteurEthnie(nom);
-        if (e == null) System.out.println("Ethnie déjà existante");
+        if (e == null) System.out.println("Ethnie dï¿½jï¿½ existante");
     }
     public static Collection<Integer> listerEthnies() {
         return getListeIde(GEthnie.listerEthnie());
         //retourne la liste des ide de toutes les ethnies
     }
     public static Collection<Integer> listerGladiateursDEthnie(Integer ide) {
-        // On vérifie que l'ethnie existe
+        // On vï¿½rifie que l'ethnie existe
         Ethnie e = GEthnie.chercherEthnie(ide);
         if (e != null) {
             return getListeIdg(GEthnie.listerGladiateur(e));
@@ -276,14 +284,14 @@ public class Facade {
         //liste des idg des gladiateurs de l'ethnie ide
     }
     public static String decrireEthnie(Integer ide) {
-        // On vérifie que l'ethnie existe
+        // On vï¿½rifie que l'ethnie existe
         Ethnie e = GEthnie.chercherEthnie(ide);
         if (e != null) return String.format("%-2d %-10s %-3s", e.getIde(), e.getNom(), e.getScore());
         else return String.format("L'Ethnie %d n'existe pas.", ide);
         //Renvoie la description de l'ethnie : ide,nom,score)
     }
     public static Integer getScore(Integer ide) {
-        // On vérifie que l'ethnie existe
+        // On vï¿½rifie que l'ethnie existe
         Ethnie e = GEthnie.chercherEthnie(ide);
         
         if (e != null) return e.getScore();
@@ -307,13 +315,13 @@ public class Facade {
                    victime = GGladiateur.chercherGladiateur(idgVictime);
         Arme a = GArme.chercherArme(ida);
         
-        // On vérifie que l'aggresseur, la victime et l'arme existe
+        // On vï¿½rifie que l'aggresseur, la victime et l'arme existe
         if (a != null && agresseur != null && victime != null) {
             agresseur.frapper(victime, a);
             //le gladiateur idgAgresseur frappe le gladiateur idgVictime ? l'aide de l'arme ida
             return 0;
         } else {
-            System.out.println(String.format("Un des arguments donné n'existe pas."));
+            System.out.println(String.format("Un des arguments donnï¿½ n'existe pas."));
             return -1;
         }
     }
@@ -321,13 +329,26 @@ public class Facade {
         Gladiateur victime = GGladiateur.chercherGladiateur(idgVictime);
         Arme a = GArme.chercherArme(ida);
     
-        // On vérifie que la victime et l'arme existe
+        // On vï¿½rifie que la victime et l'arme existe
         if (a != null && victime != null) {
+            
+            //on verifie que l'arme est autorisÃ© pour la victime
+            if(victime.getType()==Retiaire.c_getType()) {
+                if(!Retiaire.c_listeArmeDispo().contains(a)) {
+                    throw new IllegalArgumentException();
+                }
+            }
+            else{
+                if(!Mirmillon.c_listeArmeDispo().contains(a)) {
+                    throw new IllegalArgumentException();
+                }
+            }
+            
             victime.perdreArme(a);
             //d?pouille le gladiateur idgVictime de son arme ida
             return 0;
         } else {
-            System.out.println(String.format("Un des arguments donné n'existe pas."));
+            System.out.println(String.format("Un des arguments donnï¿½ n'existe pas."));
             return -1;
         }
     }
@@ -340,7 +361,7 @@ public class Facade {
 //Pour les tests unitaires
     
     public static String nomDuGladiateur(Integer idg) {
-        // On vérifie que le gladiateur existe
+        // On vï¿½rifie que le gladiateur existe
         Gladiateur g = GGladiateur.chercherGladiateur(idg);
         
         if (g != null) {
@@ -351,7 +372,7 @@ public class Facade {
         }
     }
     public static String nomDeLEthnie(Integer ide) {
-        // On vérifie que l'ethnie existe
+        // On vï¿½rifie que l'ethnie existe
         Ethnie e = GEthnie.chercherEthnie(ide);
         
         if (e != null) {
@@ -361,5 +382,31 @@ public class Facade {
             return String.format("L'Ethnie %d n'existe pas.", ide);
         }
     }  
+    
+    public static Integer agiliteRetiaire(int idg) {
+        Gladiateur g = GGladiateur.chercherGladiateur(idg);
+        if(g.getType() != Retiaire.c_getType()) {
+            throw new IllegalArgumentException();
+        }
+        Retiaire r= (Retiaire)g;
+        return r.getAgilite();
+    }
+    
+    public static Integer poidsMirmillon(int idg) {
+        Gladiateur g = GGladiateur.chercherGladiateur(idg);
+        if(g.getType() != Mirmillon.c_getType()) {
+            throw new IllegalArgumentException();
+        }
+        Mirmillon m = (Mirmillon)g;
+        return m.getPoids();
+    }
+    
+    public static int vieGladiateur(int idg) {
+        return GGladiateur.chercherGladiateur(idg).getVie();
+    }
+    
+    public static int forceGladiateur(int idg){
+        return GGladiateur.chercherGladiateur(idg).getForce();
+    }
 
 }

@@ -14,7 +14,7 @@ public class GGladiateur {
     public static ArrayList<Gladiateur> listerGladiateur() { return new ArrayList<Gladiateur>(gladiateurs); }
 
     public static Gladiateur ajouterMirmillon(String nom, Integer poids, Integer ide) {
-        // Deux Gladiateurs peuvent avoir le même nom du coup on ne fait pas de recherche
+        // Deux Gladiateurs peuvent avoir le mï¿½me nom du coup on ne fait pas de recherche
         Gladiateur g = new Mirmillon(idgNext, nom, poids);
         GEthnie.ajouterGladiateur(GEthnie.chercherEthnie(ide), g);
         gladiateurs.add(g);
@@ -24,7 +24,7 @@ public class GGladiateur {
     }
     
     public static Gladiateur ajouterRetiaire(String nom, Integer agi, Integer ide) {
-        // Deux Gladiateurs peuvent avoir le même nom du coup on ne fait pas de recherche
+        // Deux Gladiateurs peuvent avoir le mï¿½me nom du coup on ne fait pas de recherche
         Gladiateur g = new Retiaire(idgNext, nom, agi);
         GEthnie.ajouterGladiateur(GEthnie.chercherEthnie(ide), g);
         gladiateurs.add(g);
@@ -50,6 +50,7 @@ public class GGladiateur {
 
     public static void supprimerGladiateur(Gladiateur g) {
         gladiateurs.remove(g);
+        
     }
 
     public static void autoriserArmeMirmillon(Arme a) {
@@ -58,5 +59,13 @@ public class GGladiateur {
     
     public static void autoriserArmeRetiaire(Arme a) {
         Retiaire.c_autoriserArme(a);
+    }
+    
+    public static void reinitialisation() {
+        
+        gladiateurs.clear();
+        Retiaire.reinitialiser_arme();
+        Mirmillon.reinitialiser_arme();
+        idgNext = 1;
     }
 }

@@ -28,18 +28,18 @@ public class Retiaire extends Gladiateur {
     public String getType() { return "Retiaire"; }
     
     public static void c_setForceInitiale(Integer force) { 
-        // On emp�che de mettre une forceInitiale n�gative
+        // On empï¿½che de mettre une forceInitiale nï¿½gative
         if (force < 0) {
-            System.out.println("Force initiale : Initialis�e � 0 aulieu de " + force);
+            System.out.println("Force initiale : Initialisï¿½e ï¿½ 0 aulieu de " + force);
             c_forceInitiale = 0;
         }
         else c_forceInitiale = force;
     }
     
     public static void c_setAgiliteMax(Integer agi) { 
-        // On emp�che de mettre une agilit�Max n�gative
+        // On empï¿½che de mettre une agilitï¿½Max nï¿½gative
         if (agi< 0){ 
-            System.out.println("Agilite initiale : Initialis�e � 0 aulieu de " + agi);
+            System.out.println("Agilite initiale : Initialisï¿½e ï¿½ 0 aulieu de " + agi);
             c_agiliteMax = 0;
         }
         else c_agiliteMax = agi;
@@ -49,7 +49,7 @@ public class Retiaire extends Gladiateur {
     
     public static void c_autoriserArme(Arme a) 
     {
-        // On cherche si l'arme n'est pas d�j� autoris�e
+        // On cherche si l'arme n'est pas dï¿½jï¿½ autorisï¿½e
         
         if(a == null) {
             throw new IllegalArgumentException();
@@ -72,18 +72,18 @@ public class Retiaire extends Gladiateur {
         if(gAgresseur == null) {            
             throw new IllegalArgumentException();
         }
-        // On prend la somme de la puissance d�fensive
-        // en pour pouvoir la soustraire aux d�g�ts
+        // On prend la somme de la puissance dï¿½fensive
+        // en pour pouvoir la soustraire aux dï¿½gï¿½ts
         int puissDefTotal = 0;
         for (Arme a : this.getArmes()) {
             puissDefTotal += a.getPuissDef();
         }
         
-        // On calcul les d�g�ts qui vont �tre inflig� � notre Gladiateur 
+        // On calcul les dï¿½gï¿½ts qui vont ï¿½tre infligï¿½ ï¿½ notre Gladiateur 
         int degatInflige = degat - puissDefTotal;
         if (degatInflige <  0) degatInflige = 0;
         
-        // Puis on inflige les d�g�ts
+        // Puis on inflige les dï¿½gï¿½ts
         this.setVie(this.getVie() - degatInflige);
         if (this.getVie() < 0) this.setVie(0);
     }
@@ -93,7 +93,7 @@ public class Retiaire extends Gladiateur {
         // On fait le rapport du Gladiateur de base
         String rapport = super.rapport(nomEthnie);
         
-        // On rajoute les particularit�s du Mirmillon (poids et aggresseurs)
+        // On rajoute les particularitï¿½s du Mirmillon (poids et aggresseurs)
         rapport += String.format(" Mon agilite est de %d.",
                                  this.agilite);
         return rapport;
@@ -118,4 +118,9 @@ public class Retiaire extends Gladiateur {
     public static void c_setType(String type) {
         c_Type = type;
     }
+    
+    public static void reinitialiser_arme() {
+        c_armeUtilisable.clear();
+    }
 }
+

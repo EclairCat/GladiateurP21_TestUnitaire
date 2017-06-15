@@ -10,7 +10,7 @@ public class GEthnie {
     private static ArrayList<Ethnie> ethnies = new ArrayList<Ethnie>();
 
     public static Ethnie ajouteurEthnie(String nom) {
-        // On verifie qu'une Ethnie du même nom n'existe pas
+        // On verifie qu'une Ethnie du mï¿½me nom n'existe pas
         Ethnie e = null;
         boolean trouve = false;
         int i = 0;
@@ -108,5 +108,10 @@ public class GEthnie {
             }
         }
         return gagnant;
+    }
+    
+    public static void reinitialisation() {
+        ethnies.clear();
+        ideNext= 1;
     }
 }

@@ -8,9 +8,11 @@ public class Mirmillon extends Gladiateur {
     private static Integer c_poidsMax = 100;
     private static ArrayList<Arme> c_armeUtilisable = new ArrayList<Arme>();
     private ArrayList<Gladiateur> aggresseurs;
+    private static String c_type = "Mirmillon";
 
     public Mirmillon(Integer idg, String nom, Integer poids) {
         super(idg, nom);
+        if (poids == null) throw new IllegalArgumentException("Un des arguments est set Ã  null");
         if (poids > c_poidsMax) poids = c_poidsMax;
         else if (poids < 0) poids = 0;
         this.poids = poids;
@@ -20,23 +22,31 @@ public class Mirmillon extends Gladiateur {
     public Integer getForce() { return this.poids / 2; }
     
     public String getType() { return "Mirmillon"; }
+    
+    public Integer getPoids() { return this.poids; }
 
     @Override
     public ArrayList<Gladiateur> getListeAgresseur() { return new ArrayList<Gladiateur>(this.aggresseurs); }
     
     public static void c_setPoidMax(Integer poids) {
-        // On empêche de faire en sorte que le poidsMax soit négatif
+        // On empÃªche de faire en sorte que le poidsMax soit nÃ©gatif
         if (poids < 0) {
-            System.out.println("Poids initial : Initialisé à 0 aulieu de " + poids);
+            System.out.println("Poids initial : InitialisÃ© Ã  0 aulieu de " + poids);
             c_poidsMax = 0;
         }
         else c_poidsMax = poids;
     }
     
+    public static String c_getType() {
+        return c_type;
+    }
+    
+    public static Integer c_getPoidsMax() { return c_poidsMax; }
+    
     public static ArrayList<Arme> c_listeArmeDispo() { return new ArrayList<Arme>(c_armeUtilisable); }
     
     public static void c_autoriserArme(Arme a) {
-        // On cherche si l'arme n'est pas déjà autorisée
+        // On cherche si l'arme n'est pas dÃ©jÃ  autorisÃ©e
         boolean trouve = false;
         int i = 0;
         while (i < c_armeUtilisable.size() && !trouve) {
@@ -50,13 +60,13 @@ public class Mirmillon extends Gladiateur {
     }
 
     public void prendreCoup(Integer degat, Gladiateur gAgresseur) {
-        // On prend la somme de la puissance défensive
-        // en pour pouvoir la soustraire aux dégâts
+        // On prend la somme de la puissance dÃ©fensive
+        // en pour pouvoir la soustraire aux dÃ©gÃ¢ts
         int puissDefTotal = 0;
         for (Arme a : this.getArmes()) {
             puissDefTotal += a.getPuissDef();
         }
-        // On calcul les dégâts qui vont être infligé à notre Gladiateur 
+        // On calcul les dÃ©gÃ¢ts qui vont Ãªtre infligÃ© Ã  notre Gladiateur 
         int degatInflige = degat - puissDefTotal;
         if (degatInflige <  0) degatInflige = 0;
         
@@ -74,13 +84,13 @@ public class Mirmillon extends Gladiateur {
         // On fait le rapport du Gladiateur de base
         String rapport = super.rapport(nomEthnie);
         
-        // On rajoute les particularités du Mirmillon (poids et aggresseurs)
+        // On rajoute les particularitÃ©s du Mirmillon (poids et aggresseurs)
         rapport += String.format("Mon poids est de %d.",
                                  this.poids);
         
         switch (aggresseurs.size()) {
         case 0:
-            rapport += " Je n'ai toujours pas été aggressé";
+            rapport += " Je n'ai toujours pas Ã©tÃ© aggressÃ©";
             break;
         case 1:
             rapport += String.format(" Mon aggresseur est : %s", aggresseurs.get(0).getNom());
@@ -95,5 +105,8 @@ public class Mirmillon extends Gladiateur {
         return rapport;
     }
 
+    public static void reinitialiser_arme() {
+        c_armeUtilisable.clear();
+    }
     
 }

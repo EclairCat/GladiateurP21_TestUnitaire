@@ -8,6 +8,8 @@ public class Ethnie {
     private ArrayList<Gladiateur> listeGladiateur;
 
     public Ethnie(Integer ide, String nom) {
+        if (ide == null || nom == null) throw new IllegalArgumentException();
+        if (ide < 1 || nom == "") throw new IllegalArgumentException();
         this.ide = ide;
         this.nom = nom;
         this.listeGladiateur = new ArrayList<Gladiateur>();
@@ -47,3 +49,4 @@ public class Ethnie {
     }
 
 }
+

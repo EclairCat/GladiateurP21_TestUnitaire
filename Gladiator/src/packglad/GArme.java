@@ -2,6 +2,8 @@ package packglad;
 
 import java.util.ArrayList;
 
+import java.util.NoSuchElementException;
+
 import metier.Arme;
 
 public class GArme {
@@ -9,7 +11,7 @@ public class GArme {
     private static ArrayList<Arme> armes = new ArrayList<Arme>();
 
     public static Arme ajouterArme(String nom, Integer puissanceOff, Integer puissanceDef) {
-        // On verifie qu'une Arme du même nom n'existe pas
+        // On verifie qu'une Arme du mï¿½me nom n'existe pas
         Arme a = null;
         boolean trouve = false;
         int i = 0;
@@ -25,6 +27,9 @@ public class GArme {
             armes.add(a);
             idaNext++;
         }
+        else {
+            throw new IllegalArgumentException();
+        }
         return a;
     }
 
@@ -39,11 +44,17 @@ public class GArme {
             }
             i++;
         }
+        if(!trouve) {throw new NoSuchElementException();}
         
         return a;
     }
     
     public static ArrayList<Arme> listerArme() {
         return armes;
+    }
+    
+    public static void reinitialisation() {
+        armes.clear();  
+        idaNext = 1;
     }
 }

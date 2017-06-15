@@ -12,6 +12,8 @@ public abstract class Gladiateur {
     private ArrayList<Arme> armes;
 
     public Gladiateur(Integer idg, String nom) {
+        if (idg == null || nom == null) throw new IllegalArgumentException("Un des arguments est null");
+        if (idg < 0 || nom == "") throw new IllegalArgumentException("Un des arguments est null");
         this.idg = idg;
         this.nom = nom;
         this.vie = c_vieInitiale;
@@ -19,7 +21,7 @@ public abstract class Gladiateur {
     }
     
     
-    // M�thodes abstraites
+    // Mï¿½thodes abstraites
     public abstract String getType();
     
     public abstract Integer getForce();
@@ -27,15 +29,15 @@ public abstract class Gladiateur {
     public abstract void prendreCoup(Integer degat, Gladiateur gAgresseur);
     
     
-    // M�thodes get set
+    // Mï¿½thodes get set
     public Integer getIdg() { return this.idg; }
     
     public static Integer c_getVieInitiale() { return c_vieInitiale; }
 
     public static void c_setVieInitiale(Integer vie) { 
-        // On emp�che de faire en sorte que le gladiateur soit mort de base
+        // On empï¿½che de faire en sorte que le gladiateur soit mort de base
         if (vie < 1) {
-            System.out.println("Vie initiale : Initialis�e � 1 aulieu de " + vie);
+            System.out.println("Vie initiale : Initialisï¿½e ï¿½ 1 aulieu de " + vie);
             c_vieInitiale = 1;
         }
         else c_vieInitiale = vie;
@@ -67,14 +69,11 @@ public abstract class Gladiateur {
     public void setVie(Integer vie) { this.vie = vie; }
 
     public void receveoirArme(Arme a) {
-        if(a == null)
-        {
-            throw new IllegalArgumentException();
-            }
-        // Le gladiateur re�oit l'arme seuleument si il ne l'a pas d�j� d'�quip�
+        if (a == null) throw new IllegalArgumentException();
+        // Le gladiateur reçoit l'arme seuleument si il ne l'a pas déjà d'équipé
         if (!armeDansListe(armes, a)) {
-            // Si il ne l'a pas alors on v�rifie qu'il est autoris�
-            // � l'utiliser
+            // Si il ne l'a pas alors on vï¿½rifie qu'il est autorisï¿½
+            // ï¿½ l'utiliser
             if (verifArmeDispo(a)) {
                 armes.add(a);
             }
@@ -82,15 +81,12 @@ public abstract class Gladiateur {
     }
     
     public void perdreArme(Arme a) {
-        if(a == null)
-        {
-            throw new IllegalArgumentException();
-        }
+        if (a == null) throw new IllegalArgumentException();
         armes.remove(a);
     }
     
     private Boolean verifArmeDispo(Arme a) {
-        // On r�cup�re le type du Gladiateur pour
+        // On rï¿½cupï¿½re le type du Gladiateur pour
         // pouvoir savoir quelle liste d'arme dispo il faut regarder
         ArrayList<Arme> armeDispo;
         String type = this.getType();
@@ -106,22 +102,17 @@ public abstract class Gladiateur {
         }
         
         // Puis on parcourt la liste afin de savoir si
-        // le gladiateur est autoris� � l'utiliser
+        // le gladiateur est autorisï¿½ ï¿½ l'utiliser
         return armeDansListe(armeDispo, a);
     }
 
     public void frapper(Gladiateur gVictime, Arme a) {
-        //Verifie si les paramètre sont null
-        if(gVictime == null || a == null)
-        {
-            throw new IllegalArgumentException();
-        }        
-        
+        if (gVictime == null || a == null) throw new IllegalArgumentException();
         // Le Gladiateur ne peut frapper seulement si il est encore en vie
-        // et si il poss�de l'arme avec laquelle on lui demande d'attaquer
+        // et si il possï¿½de l'arme avec laquelle on lui demande d'attaquer
         if (this.vie > 0 && armeDansListe(armes, a)) {
-            // On calcul les d�g�ts de base qui vont
-            // �tre inflig� au Gladiateur gVictime
+            // On calcul les dï¿½gï¿½ts de base qui vont
+            // ï¿½tre infligï¿½ au Gladiateur gVictime
             int degat = this.getForce() + a.getPuissOff();
             gVictime.prendreCoup(degat, this);
         }
@@ -141,7 +132,7 @@ public abstract class Gladiateur {
     }
     
     public String saluer(String nomEthnie) {
-        return String.format("Ave Caesar, %-9s N�%-2d : %-15s, j'appartiens � l'ethnie des %-10s",
+        return String.format("Ave Caesar, %-9s N°-2d : %-15s, j'appartiens à l'ethnie des %-10s",
                              this.getType(),
                              this.idg,
                              this.nom,
@@ -178,3 +169,4 @@ public abstract class Gladiateur {
         return new ArrayList<Arme>(this.armes);
     }
 }
+
