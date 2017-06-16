@@ -81,11 +81,13 @@ public class Facade {
 
 //Les gladiateurs
     public static Integer creerRetiaire(String nom, Integer agilite, Integer ide) {
+        if(ide == null) throw new IllegalArgumentException();
         // On v�rifie que l'ethnie existe
         Gladiateur g = GGladiateur.ajouterRetiaire(nom, agilite, ide);
         return g.getIdg();
     }
     public static Integer creerMirmillon(String nom, Integer poids, Integer ide) {
+        if(ide == null) throw new IllegalArgumentException();
         // On v�rifie que l'ethnie existe
         Gladiateur g = GGladiateur.ajouterMirmillon(nom, poids, ide);
         return g.getIdg();

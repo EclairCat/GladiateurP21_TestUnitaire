@@ -23,7 +23,10 @@ public class FacadeTest {
     }
     
     
-    
+        /*
+         * Retiaire vérifier ue ses 
+         * attributs correspondent aux valeurs passées en paramètre.
+         */
     /**
      * @see Facade#creerRetiaire(String,Integer,Integer)
      */
@@ -37,6 +40,10 @@ public class FacadeTest {
         
         
     }
+    /*
+     * Mirmillon vérifier que ses 
+     * attributs correspondent aux valeurs passées en paramètre.
+     */
 
     /**
      * @see Facade#creerMirmillon(String,Integer,Integer)
@@ -49,7 +56,7 @@ public class FacadeTest {
         assertThat("Le poids est faux", Facade.poidsMirmillon(1), is(50));
     }
     
-
+//vérifier qu'un GLadiateur figure dans la liste de gladiateurs de son ethnie. 
     /**
      * @see Facade#listerGladiateursDEthnie(Integer)
      */
@@ -60,7 +67,7 @@ public class FacadeTest {
         assertFalse("le Gladiateur n'est pas dans la bonne ethnie", Facade.listerGladiateursDEthnie(1).isEmpty());
     }
     
-    
+    //Les identifiants de gladiateurs sont créés par incrémentation automatique à partir de 1
     @Test
     public void test_identifiant(){   
         
@@ -75,6 +82,7 @@ public class FacadeTest {
         
     }
     
+    //ajouter un gladiateur avec un argument en erreur. Intercepter l'exception qui en résulte. 
     @Test (expected = IllegalArgumentException.class)
     public void test_CreerGladiateur(){
         Facade.creerRetiaire("math", null, 1);        
@@ -103,31 +111,38 @@ public class FacadeTest {
         Facade.creerMirmillon("math", 20, null);        
     }
     
+    
+    //Ajouter un gladiateur avec des arguments corrects. Vérifier qu'il obtient l'identifiant 1.
     @Test
     public void test_identifiant2() {
         Facade.creerEthnie("test");
         Facade.creerRetiaire("bob", 30, 1);
         int bob = ((ArrayList<Integer>)Facade.listerTousGladiateurs()).get(0);        
-        assertThat("Mauvais Identifiant", Facade.nomDuGladiateur(bob), is("bob"));
+        assertThat("Mauvais Identifiant", bob, is(1));
     }
     
     /**
      * @see Facade#listerTousGladiateurs()
      */
+    //Vérifier que la liste des gladiateurs est vide initialement.
     @Test
     public void testListerTousGladiateurs() {
         assertTrue("Lister Glad n'est pas vide", Facade.listerTousGladiateurs().isEmpty());
     }
     
+    //Ajouter un gladiateur, puis vérifier que la liste des gladiateurs a une taille de 1 et contient le gladiateur rajouté.
     @Test
     public void testListerTousGladiateurs2() {
         Facade.creerEthnie("test");
         Facade.creerMirmillon("bob", 50, 1);
         
         assertThat("Lister Glad est vide", Facade.listerTousGladiateurs().size(), is(1));
+        assertThat("Bob n'est pas dans la liste", ((ArrayList<Integer>)Facade.listerTousGladiateurs()).get(0), is(1));
         assertThat("C'est pas le bon gladiateur qui est ajouter",((ArrayList<Integer>)Facade.listerTousGladiateurs()).get(0),is(1));
     }
     
+    
+    //Ajouter 2 gladiateurs, puis vérifier que la liste des gladiateurs a une taille de 2 et contient les 2 gladiateurs rajoutés.
     @Test
     public void testListerTousGladiateurs3() {
         Facade.creerEthnie("test");
@@ -139,6 +154,10 @@ public class FacadeTest {
         assertThat("C'est pas les bon gladiateurs qui est ajouter",((ArrayList<Integer>)Facade.listerTousGladiateurs()).get(1),is(2));
     }
     
+    /*
+     * Test_CreerArme Different Parametre
+     * 
+     */
     @Test (expected = IllegalArgumentException.class)
     public void test_CreerArme1(){
         Facade.creerUneArme("", 30, 0);
@@ -165,17 +184,23 @@ public class FacadeTest {
         Facade.creerUneArme("epee", 50, 0);
     }
     
+    /*
+     * Test Liste Arme!
+     */
+    
+    //la liste est vide initialement
     @Test
     public void test_ListerArmeR() {
         assertTrue("liste non vide", Facade.listerArmesDispoRetiaire().isEmpty());
     }
     
+    //la liste est vide initialement
     @Test
     public void test_ListerArmeM() {
         assertTrue("liste non vide", Facade.listerArmesDispoMirmillon().isEmpty());
     }
     
-    
+    //une arme est bien dans la liste des Retiaire
     @Test
     public void test_ListerArmeR2() {
         Facade.creerUneArme("epee", 30, 0);
@@ -183,6 +208,7 @@ public class FacadeTest {
         assertThat("liste  vide", Facade.listerArmesDispoRetiaire().size(), is(1));
     }
     
+    //une arme est bien dans la liste des Retiaire et Mirmillon
     @Test
     public void test_ListerArmeMR() {
         Facade.creerUneArme("epee", 30, 0);
@@ -197,6 +223,7 @@ public class FacadeTest {
      * Test Donner Arme
      */
     
+    //ID inexistant
     @Test (expected = NoSuchElementException.class)
     public void test_donnerarme() {
         Facade.creerEthnie("test");
@@ -204,6 +231,7 @@ public class FacadeTest {
         Facade.donnerUneArme(1, 1);
     }
     
+    //Verifie que une arme non autorisé à un retiaire n'est pas donné
     @Test 
     public void test_donnerarme2() {
         Facade.creerEthnie("test");
@@ -220,6 +248,7 @@ public class FacadeTest {
         assertThat("Le gladiateur a plusieur ou n'a pas d'arme", Facade.declarerArmes(1).size(), is(1));
     }
     
+    //Verifie que une arme autorisé est bien donné
     @Test 
     public void test_donnerarme3() {
         Facade.creerEthnie("test");
@@ -232,6 +261,7 @@ public class FacadeTest {
     
     }
     
+    //Vérifier que lorsqu'on donne une deuxième fois la même arme autorisée à un gladiateur, sa liste d'armes reste inchangée.
     @Test 
     public void test_donnerarme4() {
         Facade.creerEthnie("test");
@@ -248,6 +278,7 @@ public class FacadeTest {
         assertThat("Le gladiateur a plusieur ou n'a pas d'arme", Facade.declarerArmes(1).size(), is(1));
     }
     
+    //Vérifier que lorsqu'on donne 2 armes autorisées différentes à un gladiateur, les 2 armes sont bien en sa possession.
     @Test 
     public void test_donnerarme5() {
         Facade.creerEthnie("test");
@@ -271,6 +302,7 @@ public class FacadeTest {
      * Test Desarmer
      */
     
+    //Verifie quand le porteur n'a pas d'arme
     @Test (expected = NoSuchElementException.class)
     public void test_desarmer1() {
         Facade.creerEthnie("test");
@@ -279,6 +311,7 @@ public class FacadeTest {
         
     }
     
+    //l'arme à enlever n'est pas une arme autorisée à ce gladiateur.
     @Test (expected = IllegalArgumentException.class)
     public void test_desarmer2() {
         Facade.creerEthnie("test");
@@ -289,6 +322,7 @@ public class FacadeTest {
         
     }
     
+    //Donner une arme autorisée à un gladiateur, puis enlever lui cette arme. Vérifier que la liste des armes de ce gladiateur est à nouveau vide.
     @Test 
     public void test_desarmer3() {
         Facade.creerEthnie("test");
@@ -306,8 +340,13 @@ public class FacadeTest {
     /*
      * Test Frappper
      * 
-     */
-    
+     *
+     *
+     * Vérifier que lorsqu'un gladiateur frappe un mirmillon 
+     * désarmé, la note de vie du mirmillon est diminuée de la 
+     * somme entre la force du coup de l'agresseur et la puissance offensive 
+     * de l'arme choisie.
+    */
     @Test 
     public void test_frapper1() {
         Facade.creerEthnie("test");
@@ -323,6 +362,7 @@ public class FacadeTest {
         
     }
     
+    //Vérifier que lorsqu'un gladiateur frappe un retiaire désarmé, l'agilité de la victime est prise en compte.
     @Test 
     public void test_frapper2() {
         Facade.creerEthnie("test");
@@ -338,6 +378,7 @@ public class FacadeTest {
         
     }
     
+    //Vérifier que lorsqu'un gladiateur frappe un mirmillon armé, la puissance défensive de l'arme - ou des armes - de la victime est prise en compte.
     @Test 
     public void test_frapper3() {
         Facade.creerEthnie("test");
@@ -356,6 +397,8 @@ public class FacadeTest {
         
     }
     
+    
+    //Vérifier que lorsqu'un gladiateur frappe un rétiaire armé, la puissance défensive de l'arme - ou des armes - de la victime ainsi que son agilité sont pris en compte.
     @Test 
     public void test_frapper4() {
         Facade.creerEthnie("test");
@@ -375,6 +418,8 @@ public class FacadeTest {
         
     }
     
+    //Vérifier que la vie d'un retiaire désarmé n'augmente pas lorsque son agilité est supérieure à la force du coup de l'agresseur.
+    
     @Test 
     public void test_frapper6() {
         Facade.creerEthnie("test");
@@ -391,6 +436,8 @@ public class FacadeTest {
         
     }
     
+    
+    //Vérifier que la vie d'un gladiateur armé n'augmente pas lorsque la puissance défensive de son arme - ou des armes - est supérieure à la force du coup de l'agresseur.
     @Test 
     public void test_frapper7() {
         Facade.creerEthnie("test");
@@ -406,6 +453,7 @@ public class FacadeTest {
         
     }
     
+    //Vérifier qu'un gladiateur peut se frapper lui-même et que dans ce cas sa note de vie est diminuée correctement.
     @Test 
     public void test_frapper8() {
         Facade.creerEthnie("test");
@@ -419,6 +467,7 @@ public class FacadeTest {
         
     }
     
+    //Vérifier qu'un gladiateur sans vie ne peut plus frapper.
     @Test 
     public void test_frapper9() {
         Facade.creerEthnie("test");
@@ -426,7 +475,7 @@ public class FacadeTest {
         Facade.autoriserArmeAuxMirmillons(1);               
         Facade.creerMirmillon("victime",10,1);
         Facade.donnerUneArme(1, 1);
-        Facade.frapper(1, 1, 1);
+        Facade.frapper(1, 1, 1); // -205 vie!
         //he's dead
         
         Facade.creerMirmillon("yay",50,1);
@@ -440,7 +489,7 @@ public class FacadeTest {
     /*
      * Liste Agresseur
      */
-    
+    //Vérifier qu'un rétiaire ne renvoie "rien" (à définir) pour cette fonction 
     @Test
     public void test_listeAgresseur1() {
         Facade.creerEthnie("test");
@@ -453,6 +502,7 @@ public class FacadeTest {
         assertTrue("Retiaire renvoie ses aggresseurs", Facade.listerAgresseurs(1).isEmpty());
     }
     
+    //Vérifier que lorsqu'un mirmillon frappe un autre mirmillon, l'agresseur est ajouté à la liste des agresseurs de la victime et la liste des agresseurs de l'agresseur reste inchangée.
     @Test
     public void test_listeAgresseur2() {
         Facade.creerEthnie("test");
@@ -466,6 +516,8 @@ public class FacadeTest {
         assertThat("le mirmillon agresseur a d'agresseur", Facade.listerAgresseurs(2).size(), is(0));
     }
     
+    
+    //Vérifier que lorsqu'un gladiateur frappe un mirmillon plusieurs fois, l'agresseur n'est pas ajouté plusieurs fois à la liste des agresseurs de la victime.
     @Test
     public void test_listeAgresseur3() {
         Facade.creerEthnie("test");
@@ -480,6 +532,8 @@ public class FacadeTest {
         
     }
     
+    
+    //érifier qu'un mirmillon peut se frapper lui-même et que dans ce cas il est rajouté dans sa propre liste d'agresseurs.
     @Test
     public void test_listeAgresseur4() {
         Facade.creerEthnie("test");
@@ -494,6 +548,11 @@ public class FacadeTest {
     
     /*
      * Test Suppriemr Glad
+     *
+     *Ajouter 2 gladiateurs, puis vérifier 
+     * qu'après la suppression du premier la liste des gladiateurs 
+     * ne contient plus que le second ; supprimer le second et vérifier 
+     * que la liste des gladiateurs est devenue vide.
      */
     
     @Test
@@ -509,6 +568,13 @@ public class FacadeTest {
         
     }
     
+    
+    /*
+     * 
+     * Ajouter 2 mirmillons ; le premier frappe le second. Vérifier 
+     * qu'après la suppression du premier mirmillon, la liste des agresseurs 
+     * du second est vide.
+     */
     @Test
     public void supprimerGlad2() {
         Facade.creerEthnie("test");
@@ -530,7 +596,7 @@ public class FacadeTest {
     /*
      * Test Jeu d'essai
      */
-    
+    //Vérifier que le jeu d'essai est correctement créé.
     @Test
     public void test_jeudessai() {
         Facade.lancerJeuDEssai();
